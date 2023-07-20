@@ -16,7 +16,6 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val text_view : TextView = findViewById(R.id.textView)
-
         val retService : AlbumService = RetrofitInstance.getRetrofitInstance().create(AlbumService::class.java)
 
         val responceLiveData : LiveData<Response<Album>> = liveData {
@@ -36,6 +35,16 @@ class MainActivity : AppCompatActivity() {
                     text_view.append(result)
                 }
             }
+        })
+    }
+    private fun getResponce(retService : AlbumService){
+        val album = AlbumItem(0,"amal",3)
+        val postResponce : LiveData<Response<AlbumItem>> = liveData {
+            val response : Response<AlbumItem> = retService.uploadAlbum(album)
+            emit(response)
+        }
+        postResponce.observe(this, Observer {
+
         })
     }
 }
